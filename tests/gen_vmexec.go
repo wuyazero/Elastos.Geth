@@ -7,9 +7,9 @@ import (
 	"errors"
 	"math/big"
 
-	"github.com/wuyazero/go-ethereum/common"
-	"github.com/wuyazero/go-ethereum/common/hexutil"
-	"github.com/wuyazero/go-ethereum/common/math"
+	"github.com/wuyazero/Elastos.Geth/common"
+	"github.com/wuyazero/Elastos.Geth/common/hexutil"
+	"github.com/wuyazero/Elastos.Geth/common/math"
 )
 
 var _ = (*vmExecMarshaling)(nil)

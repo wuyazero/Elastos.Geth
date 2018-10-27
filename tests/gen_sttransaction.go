@@ -6,8 +6,8 @@ import (
 	"encoding/json"
 	"math/big"
 
-	"github.com/wuyazero/go-ethereum/common/hexutil"
-	"github.com/wuyazero/go-ethereum/common/math"
+	"github.com/wuyazero/Elastos.Geth/common/hexutil"
+	"github.com/wuyazero/Elastos.Geth/common/math"
 )
 
 var _ = (*stTransactionMarshaling)(nil)

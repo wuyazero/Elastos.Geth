@@ -6,10 +6,10 @@ import (
 	"encoding/json"
 	"math/big"
 
-	"github.com/wuyazero/go-ethereum/common"
-	"github.com/wuyazero/go-ethereum/common/hexutil"
-	"github.com/wuyazero/go-ethereum/common/math"
-	"github.com/wuyazero/go-ethereum/core/types"
+	"github.com/wuyazero/Elastos.Geth/common"
+	"github.com/wuyazero/Elastos.Geth/common/hexutil"
+	"github.com/wuyazero/Elastos.Geth/common/math"
+	"github.com/wuyazero/Elastos.Geth/core/types"
 )
 
 var _ = (*btHeaderMarshaling)(nil)

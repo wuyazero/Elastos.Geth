@@ -6,8 +6,8 @@ import (
 	"encoding/json"
 	"math/big"
 
-	"github.com/wuyazero/go-ethereum/common"
-	"github.com/wuyazero/go-ethereum/common/math"
+	"github.com/wuyazero/Elastos.Geth/common"
+	"github.com/wuyazero/Elastos.Geth/common/math"
 )
 
 var _ = (*difficultyTestMarshaling)(nil)

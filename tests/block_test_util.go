@@ -1,18 +1,18 @@
-// Copyright 2015 The go-ethereum Authors
-// This file is part of the go-ethereum library.
+// Copyright 2015 The Elastos.Geth Authors
+// This file is part of the Elastos.Geth library.
 //
-// The go-ethereum library is free software: you can redistribute it and/or modify
+// The Elastos.Geth library is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// The go-ethereum library is distributed in the hope that it will be useful,
+// The Elastos.Geth library is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU Lesser General Public License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public License
-// along with the go-ethereum library. If not, see <http://www.gnu.org/licenses/>.
+// along with the Elastos.Geth library. If not, see <http://www.gnu.org/licenses/>.
 
 // Package tests implements execution of Ethereum JSON tests.
 package tests
@@ -24,17 +24,17 @@ import (
 	"fmt"
 	"math/big"
 
-	"github.com/wuyazero/go-ethereum/common"
-	"github.com/wuyazero/go-ethereum/common/hexutil"
-	"github.com/wuyazero/go-ethereum/common/math"
-	"github.com/wuyazero/go-ethereum/consensus/ethash"
-	"github.com/wuyazero/go-ethereum/core"
-	"github.com/wuyazero/go-ethereum/core/state"
-	"github.com/wuyazero/go-ethereum/core/types"
-	"github.com/wuyazero/go-ethereum/core/vm"
-	"github.com/wuyazero/go-ethereum/ethdb"
-	"github.com/wuyazero/go-ethereum/params"
-	"github.com/wuyazero/go-ethereum/rlp"
+	"github.com/wuyazero/Elastos.Geth/common"
+	"github.com/wuyazero/Elastos.Geth/common/hexutil"
+	"github.com/wuyazero/Elastos.Geth/common/math"
+	"github.com/wuyazero/Elastos.Geth/consensus/ethash"
+	"github.com/wuyazero/Elastos.Geth/core"
+	"github.com/wuyazero/Elastos.Geth/core/state"
+	"github.com/wuyazero/Elastos.Geth/core/types"
+	"github.com/wuyazero/Elastos.Geth/core/vm"
+	"github.com/wuyazero/Elastos.Geth/ethdb"
+	"github.com/wuyazero/Elastos.Geth/params"
+	"github.com/wuyazero/Elastos.Geth/rlp"
 )
 
 // A BlockTest checks handling of entire blocks.
