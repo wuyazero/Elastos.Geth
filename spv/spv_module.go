@@ -23,7 +23,7 @@ import (
 var spvService spv.SPVService
 
 func SpvInit() error {
-	fmt.Println("SPV Started...")
+	fmt.Println("SPV Started... OK!")
 	
 	var err error
 	spvlog.Init(config.Parameters.SpvPrintLevel, 20, 1024)
