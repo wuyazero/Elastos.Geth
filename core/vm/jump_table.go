@@ -133,6 +133,19 @@ func newByzantiumInstructionSet() [256]operation {
 		reverts:       true,
 		returns:       true,
 	}
+	instructionSet[SPVPAYLOADSIZE] = operation{
+		execute:       opSpvPayLoadSize,
+		gasCost:       constGasFunc(GasQuickStep),
+		validateStack: makeStackFunc(1, 1),
+		valid:         true,
+	}
+	instructionSet[SPVPAYLOADCOPY] = operation{
+		execute:       opSpvPayLoadCode,
+		gasCost:       constGasFunc(GasQuickStep),
+		validateStack: makeStackFunc(4, 0),
+		valid:         true,
+	}
+
 	return instructionSet
 }
 

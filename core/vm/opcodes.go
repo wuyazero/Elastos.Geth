@@ -217,6 +217,12 @@ const (
 	SELFDESTRUCT = 0xff
 )
 
+// 0xdd - 0xde opcodes used for ela
+const (
+	SPVPAYLOADSIZE = 0xdd
+	SPVPAYLOADCOPY = 0xde
+)
+
 // Since the opcodes aren't all in order we can't use a regular slice.
 var opCodeToString = map[OpCode]string{
 	// 0x0 range - arithmetic ops.
@@ -381,6 +387,9 @@ var opCodeToString = map[OpCode]string{
 	PUSH: "PUSH",
 	DUP:  "DUP",
 	SWAP: "SWAP",
+
+	SPVPAYLOADSIZE : "SPVPAYLOADSIZE",
+	SPVPAYLOADCOPY : "SPVPAYLOADCOPY",
 }
 
 func (op OpCode) String() string {
@@ -532,6 +541,8 @@ var stringToOp = map[string]OpCode{
 	"CALLCODE":       CALLCODE,
 	"REVERT":         REVERT,
 	"SELFDESTRUCT":   SELFDESTRUCT,
+	"SPVPAYLOADSIZE" : SPVPAYLOADSIZE,
+	"SPVPAYLOADCOPY" : SPVPAYLOADCOPY,
 }
 
 // StringToOp finds the opcode whose name is stored in `str`.

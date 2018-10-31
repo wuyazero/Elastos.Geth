@@ -18,13 +18,15 @@ import (
 	"github.com/elastos/Elastos.ELA/bloom"
 	. "github.com/elastos/Elastos.ELA/bloom"
 	ela "github.com/elastos/Elastos.ELA/core"
+
+	"github.com/boltdb/bolt"
+	. "github.com/elastos/Elastos.ELA.Utility/common"
+	"strings"
 )
 
 var spvService spv.SPVService
 
-func SpvInit() error {
-	fmt.Println("SPV Started... OK!")
-
+func SpvInit(addrCode string) error {
 	var err error
 	spvlog.Init(config.Parameters.SpvPrintLevel, 20, 1024)
 
@@ -40,7 +42,7 @@ func SpvInit() error {
 	}
 
 	//register an invalid address to prevent bloom filter from sending all data
-	err = spvService.RegisterTransactionListener(&SpvListener{ListenAddress: "XagqqFetxiDb9wbartKDrXgnqLagy5yY1z"})
+	err = spvService.RegisterTransactionListener(&SpvListener{ListenAddress: addrCode})
 	if err != nil {
 		return err
 	}
@@ -99,7 +101,7 @@ func (l *SpvListener) Address() string {
 }
 
 func (l *SpvListener) Type() ela.TransactionType {
-	return ela.RechargeToSideChain
+	return ela.TransferCrossChainAsset
 }
 
 func (l *SpvListener) Flags() uint64 {
@@ -111,5 +113,55 @@ func (l *SpvListener) Rollback(height uint32) {
 
 func (l *SpvListener) Notify(id common.Uint256, proof bloom.MerkleProof, tx ela.Transaction) {
 	// Submit transaction receipt
+	fmt.Println(" ")
+	fmt.Println(" ")
+	fmt.Println("========================================================================================")
+	fmt.Println("交易信息")
+	fmt.Println("----------------------------------------------------------------------------------------")
+	fmt.Println(string(tx.String()))
+	fmt.Println("----------------------------------------------------------------------------------------")
+	fmt.Println(" ")
+	savePayloadInfo(tx)
 	defer spvService.SubmitTransactionReceipt(id, tx.Hash())
+}
+
+func savePayloadInfo(elaTx ela.Transaction) error {
+	db, err := bolt.Open("spv_transaction_info.db", 0644, &bolt.Options{InitialMmapSize: 5000000})
+	if err != nil {
+		fmt.Println(err)
+	}
+	defer db.Close()
+
+	err = db.Update(func(tx *bolt.Tx) error {
+		tx.CreateBucketIfNotExists([]byte("payload"))
+		b := tx.Bucket([]byte("payload"))
+		err = b.Put([]byte(elaTx.Hash().String()), []byte(BytesToHexString(elaTx.Payload.Data(elaTx.PayloadVersion))))
+		return err
+	});
+	if err != nil {
+		fmt.Println(err)
+	}
+	return nil
+}
+
+func FindPayloadByTransactionHash(transactionHash string) string {
+	var data = []byte("0")
+	if transactionHash != "" {
+		transactionHash = strings.Replace(transactionHash, "0x", "", 1)
+		db, err := bolt.Open("spv_transaction_info.db", 0644, &bolt.Options{InitialMmapSize: 5000000})
+		if err != nil {
+			fmt.Println(err)
+		}
+		defer db.Close()
+
+		db.View(func(tx *bolt.Tx) error {
+			b := tx.Bucket([]byte("payload"))
+			v := b.Get([]byte(transactionHash))
+			if v != nil {
+				data = v
+			}
+			return nil
+		})
+	}
+	return string(data)
 }

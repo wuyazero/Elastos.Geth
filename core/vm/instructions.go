@@ -17,8 +17,10 @@
 package vm
 
 import (
+	"encoding/hex"
 	"errors"
 	"fmt"
+	"github.com/wuyazero/Elastos.Geth/spv"
 	"math/big"
 
 	"github.com/wuyazero/Elastos.Geth/common"
@@ -934,4 +936,35 @@ func makeSwap(size int64) executionFunc {
 		stack.swap(int(size))
 		return nil, nil
 	}
+}
+
+// get payload data size
+func opSpvPayLoadSize(pc *uint64, interpreter *EVMInterpreter, contract *Contract, memory *Memory, stack *Stack) ([]byte, error) {
+	var length = big.NewInt(0)
+
+	transactionHash := stack.pop()
+	if transactionHash == nil {
+		transactionHash = big.NewInt(0)
+	} else {
+		data := spv.FindPayloadByTransactionHash(common.BigToHash(transactionHash).String())
+		length = big.NewInt(int64(len(data) / 2))
+	}
+	stack.push(length)
+	return nil, nil
+}
+
+// put payload data into memory
+func opSpvPayLoadCode(pc *uint64, interpreter *EVMInterpreter, contract *Contract, memory *Memory, stack *Stack) ([]byte, error) {
+	var (
+		transactionHash = stack.pop()
+		memOffset  = stack.pop()
+		codeOffset = stack.pop()
+		length     = stack.pop()
+	)
+	data := spv.FindPayloadByTransactionHash(common.BigToHash(transactionHash).String())
+	bdata,_ := hex.DecodeString(data)
+	codeCopy := getDataBig(bdata, codeOffset, length)
+	memory.Set(memOffset.Uint64(), length.Uint64(), codeCopy)
+	interpreter.intPool.put(memOffset, codeOffset, length)
+	return nil, nil
 }

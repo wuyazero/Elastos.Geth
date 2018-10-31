@@ -165,6 +165,10 @@ var (
 		utils.MetricsInfluxDBPasswordFlag,
 		utils.MetricsInfluxDBHostTagFlag,
 	}
+
+	elachainFlags = []cli.Flag{
+		utils.SpvMonitoringAddrFlag,
+	}
 )
 
 func init() {
@@ -208,6 +212,7 @@ func init() {
 	app.Flags = append(app.Flags, debug.Flags...)
 	app.Flags = append(app.Flags, whisperFlags...)
 	app.Flags = append(app.Flags, metricsFlags...)
+	app.Flags = append(app.Flags, elachainFlags...)
 
 	app.Before = func(ctx *cli.Context) error {
 		runtime.GOMAXPROCS(runtime.NumCPU())
@@ -267,8 +272,7 @@ func geth(ctx *cli.Context) error {
 	}
 
 	// get the flag and start SPV
-	fmt.Println(ctx.GlobalString(utils.DataDirFlag.Name))
-	spv.SpvInit()
+	spv.SpvInit(ctx.GlobalString(utils.SpvMonitoringAddrFlag.Name))
 
 	node := makeFullNode(ctx)
 	startNode(ctx, node)
