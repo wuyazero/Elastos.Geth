@@ -252,7 +252,6 @@ func init() {
 }
 
 func main() {
-	spv.SpvInit()
 	if err := app.Run(os.Args); err != nil {
 		fmt.Fprintln(os.Stderr, err)
 		os.Exit(1)
@@ -266,6 +265,11 @@ func geth(ctx *cli.Context) error {
 	if args := ctx.Args(); len(args) > 0 {
 		return fmt.Errorf("invalid command: %q", args[0])
 	}
+
+	// get the flag and start SPV
+	fmt.Println(ctx.GlobalString(utils.DataDirFlag.Name))
+	spv.SpvInit()
+
 	node := makeFullNode(ctx)
 	startNode(ctx, node)
 	node.Wait()
