@@ -1,11 +1,11 @@
 package spv
 
 import (
-	"fmt"
 	"bytes"
 	"crypto/rand"
 	"encoding/binary"
 	"errors"
+	"fmt"
 	"os"
 
 	"github.com/elastos/Elastos.ELA.SideChain/config"
@@ -24,7 +24,7 @@ var spvService spv.SPVService
 
 func SpvInit() error {
 	fmt.Println("SPV Started... OK!")
-	
+
 	var err error
 	spvlog.Init(config.Parameters.SpvPrintLevel, 20, 1024)
 
