@@ -116,7 +116,7 @@ func (l *SpvListener) Notify(id common.Uint256, proof bloom.MerkleProof, tx ela.
 	fmt.Println(" ")
 	fmt.Println(" ")
 	fmt.Println("========================================================================================")
-	fmt.Println("交易信息")
+	fmt.Println("mainchain transaction info")
 	fmt.Println("----------------------------------------------------------------------------------------")
 	fmt.Println(string(tx.String()))
 	fmt.Println("----------------------------------------------------------------------------------------")
@@ -137,7 +137,7 @@ func savePayloadInfo(elaTx ela.Transaction) error {
 		b := tx.Bucket([]byte("payload"))
 		err = b.Put([]byte(elaTx.Hash().String()), []byte(BytesToHexString(elaTx.Payload.Data(elaTx.PayloadVersion))))
 		return err
-	});
+	})
 	if err != nil {
 		fmt.Println(err)
 	}
