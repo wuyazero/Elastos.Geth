@@ -59,6 +59,24 @@ module.exports = {
 		"type": "function"
 	},
 	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "_addrs",
+				"type": "string[]"
+			},
+			{
+				"name": "_amounts",
+				"type": "uint256[]"
+			}
+		],
+		"name": "receivePayload",
+		"outputs": [],
+		"payable": true,
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
 		"constant": true,
 		"inputs": [
 			{
@@ -170,6 +188,28 @@ module.exports = {
 			}
 		],
 		"name": "TxProcessed",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"name": "_addr",
+				"type": "string"
+			},
+			{
+				"indexed": false,
+				"name": "_amount",
+				"type": "uint256"
+			},
+			{
+				"indexed": true,
+				"name": "_sender",
+				"type": "address"
+			}
+		],
+		"name": "PayloadReceived",
 		"type": "event"
 	},
 	{
