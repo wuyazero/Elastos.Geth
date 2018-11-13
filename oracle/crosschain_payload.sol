@@ -1,4 +1,5 @@
-pragma solidity ^0.4.24;
+pragma solidity ^0.4.25;
+pragma experimental ABIEncoderV2;
 
 library SafeMath {
     function add(uint256 _a, uint256 _b) internal pure returns (uint256) {
@@ -30,6 +31,7 @@ contract CrossChainPayload {
 
     event PayloadSent(bytes32 indexed _txhash, address indexed _addr, uint256 _amount, address indexed _arbiter);
     event TxProcessed(bytes32 indexed _txhash, address indexed _arbiter);
+    event PayloadReceived(string _addr, uint256 _amount, address indexed _sender);
     event EtherDeposited(address indexed _sender, uint256 _amount);
 
     function sendPayload(bytes32 _txhash) public {
@@ -45,10 +47,12 @@ contract CrossChainPayload {
 
     function getPayload(bytes32 _txhash) private view returns (bytes memory _payload) {
         uint256 size;
+        // 823b -> 82dd
         assembly {
             size := extpayloadsize(_txhash)
         }
         _payload = new bytes(size);
+        // 853c -> 85de
         assembly {
             extpayloadcopy(_txhash, add(_payload, 0x20), 0, size)
         }
@@ -137,7 +141,21 @@ contract CrossChainPayload {
         _end = _start + 8;
     }
 
-    function () public payable {
+    function receivePayload(string[] _addrs, uint256[] _amounts) public payable {
+        uint256 total = 0;
+        uint256 i = 0;
+        while (i < _amounts.length) {
+            total = total.add(_amounts[i]);
+            emit PayloadReceived(_addrs[i], _amounts[i], msg.sender);
+            i++;
+        }
+
+        require(total == msg.value && _addrs.length == _amounts.length);
+
         emit EtherDeposited(msg.sender, msg.value);
+    }
+
+    function () public payable {
+        revert();
     }
 }
