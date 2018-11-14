@@ -1,5 +1,5 @@
 hash: e648753bffef07f3a6e76bb75ad32816e403aea65e2361f8d7ac4a1da5227b3f
-updated: 2018-11-14T17:02:00.5847176+08:00
+updated: 2018-11-15T04:36:20.506055+08:00
 imports:
 - name: bazil.org/fuse
   version: 65cc252bf6691cb3c7014bcb2c8dc29de91e3a7e
@@ -95,16 +95,16 @@ imports:
 - name: github.com/go-stack/stack
   version: 2fee6af1a9795aafbe0253a0cfbdf668e1fb8a9a
 - name: github.com/golang/crypto
-  version: 0e37d006457bf46f9e6692014ba72ef82c33022c
+  version: 3d3f9f413869b949e48070b5bc593aa22cc2b8f2
 - name: github.com/golang/protobuf
   version: aa810b61a9c79d51363740d207bb46cf8e620ed5
   subpackages:
   - proto
   - protoc-gen-go/descriptor
 - name: github.com/golang/snappy
-  version: d9eb7a3d35ec988b8585d4a0068e462c27d28380
+  version: 2e65f85255dbc3072edf28d6b5b8efc472979f5a
 - name: github.com/golang/sys
-  version: d0be0721c37eeb5299f245a996a483160fc36940
+  version: 66b7b1311ac80bbafcd2daeef9a5e6e2cd1e2399
 - name: github.com/google/uuid
   version: 9b3b1e0f5f99ae461456d768e7d301a7acdaa2d8
 - name: github.com/gorilla/websocket
@@ -129,7 +129,7 @@ imports:
   - models
   - pkg/escape
 - name: github.com/itchyny/base58-go
-  version: 8739d1dc6e0ff8db2d786430b1862f2dff5f434b
+  version: 56d50cf40874c738595ef72ee2445a4de104d27d
 - name: github.com/jackpal/go-nat-pmp
   version: c9cfead9f2a36ddf3daa40ba269aa7f4bbba6b62
 - name: github.com/julienschmidt/httprouter
@@ -147,7 +147,7 @@ imports:
 - name: github.com/mattn/go-runewidth
   version: b20a3daf6a39840c202fd42cc23d53607162b045
 - name: github.com/mattn/go-sqlite3
-  version: 1a378fb5bb5c0b41b45a0bd61a984072fe0fd0fb
+  version: c7c4067b79cc51e6dfdcef5c702e74b1e0fa7c75
 - name: github.com/mitchellh/go-wordwrap
   version: 9e67c67572bc5dd02aef930e2b0ae3c02a4b5a5c
 - name: github.com/mohae/deepcopy
@@ -193,7 +193,7 @@ imports:
 - name: github.com/StackExchange/wmi
   version: b12b22c5341f0c26d88c4d66176330500e84db68
 - name: github.com/syndtr/goleveldb
-  version: f9080354173f192dfc8821931eacf9cfd6819253
+  version: 6b91fda63f2e36186f1c9d0e48578defb69c5d43
   subpackages:
   - leveldb
   - leveldb/cache
