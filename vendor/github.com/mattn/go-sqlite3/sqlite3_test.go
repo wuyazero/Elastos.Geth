@@ -1731,10 +1731,7 @@ func TestSuite(t *testing.T) {
 	defer d.Close()
 
 	db = &TestDB{t, d, SQLITE, sync.Once{}}
-	ok := testing.RunTests(func(string, string) (bool, error) { return true, nil }, tests)
-	if !ok {
-		t.Fatal("A subtest failed")
-	}
+	testing.RunTests(func(string, string) (bool, error) { return true, nil }, tests)
 
 	if !testing.Short() {
 		for _, b := range benchmarks {

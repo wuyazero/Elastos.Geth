@@ -1,5 +1,5 @@
-hash: 74c45cf3005ed8ee8ce832fb618dabe1b55101df67f46846c67b794c0c81436b
-updated: 2018-10-27T21:57:34.537044156+08:00
+hash: e648753bffef07f3a6e76bb75ad32816e403aea65e2361f8d7ac4a1da5227b3f
+updated: 2018-11-14T17:02:00.5847176+08:00
 imports:
 - name: bazil.org/fuse
   version: 65cc252bf6691cb3c7014bcb2c8dc29de91e3a7e
@@ -9,7 +9,7 @@ imports:
 - name: github.com/AlexpanXX/fsnotify
   version: 7824671dc7bf1d6925c956976fa0b80ac25dbe32
 - name: github.com/aristanetworks/goarista
-  version: 33151c4543a79b013e8e6799ef45b2ba88c3cd1c
+  version: 5faa74ffbed7096292069fdcd0eae96146a3158a
   subpackages:
   - monotime
 - name: github.com/Azure/azure-pipeline-go
@@ -95,20 +95,20 @@ imports:
 - name: github.com/go-stack/stack
   version: 2fee6af1a9795aafbe0253a0cfbdf668e1fb8a9a
 - name: github.com/golang/crypto
-  version: e84da0312774c21d64ee2317962ef669b27ffb41
+  version: 0e37d006457bf46f9e6692014ba72ef82c33022c
 - name: github.com/golang/protobuf
   version: aa810b61a9c79d51363740d207bb46cf8e620ed5
   subpackages:
   - proto
   - protoc-gen-go/descriptor
 - name: github.com/golang/snappy
-  version: 2e65f85255dbc3072edf28d6b5b8efc472979f5a
+  version: d9eb7a3d35ec988b8585d4a0068e462c27d28380
 - name: github.com/golang/sys
-  version: 95b1ffbd15a57cc5abb3f04402b9e8ec0016a52c
+  version: d0be0721c37eeb5299f245a996a483160fc36940
 - name: github.com/google/uuid
   version: 9b3b1e0f5f99ae461456d768e7d301a7acdaa2d8
 - name: github.com/gorilla/websocket
-  version: 76e4896901ef89d253d69b528d3701dd146fe2ae
+  version: 483fb8d7c32fcb4b5636cd293a92e3935932e2f4
 - name: github.com/hashicorp/golang-lru
   version: 20f1fb78b0740ba8c3cb143a61e86ba5c8669768
   subpackages:
@@ -129,7 +129,7 @@ imports:
   - models
   - pkg/escape
 - name: github.com/itchyny/base58-go
-  version: 56d50cf40874c738595ef72ee2445a4de104d27d
+  version: 8739d1dc6e0ff8db2d786430b1862f2dff5f434b
 - name: github.com/jackpal/go-nat-pmp
   version: c9cfead9f2a36ddf3daa40ba269aa7f4bbba6b62
 - name: github.com/julienschmidt/httprouter
@@ -147,7 +147,7 @@ imports:
 - name: github.com/mattn/go-runewidth
   version: b20a3daf6a39840c202fd42cc23d53607162b045
 - name: github.com/mattn/go-sqlite3
-  version: c7c4067b79cc51e6dfdcef5c702e74b1e0fa7c75
+  version: 1a378fb5bb5c0b41b45a0bd61a984072fe0fd0fb
 - name: github.com/mitchellh/go-wordwrap
   version: 9e67c67572bc5dd02aef930e2b0ae3c02a4b5a5c
 - name: github.com/mohae/deepcopy
@@ -159,7 +159,7 @@ imports:
   subpackages:
   - ast
 - name: github.com/nsf/termbox-go
-  version: b66b20ab708e289ff1eb3e218478302e6aec28ce
+  version: 60ab7e3d12ed91bc1b2486559c4b3a6b62297577
 - name: github.com/olekukonko/tablewriter
   version: e6d60cf7ba1f42d86d54cdf5508611c4aafb3970
 - name: github.com/opentracing/opentracing-go
@@ -193,7 +193,7 @@ imports:
 - name: github.com/StackExchange/wmi
   version: b12b22c5341f0c26d88c4d66176330500e84db68
 - name: github.com/syndtr/goleveldb
-  version: 6b91fda63f2e36186f1c9d0e48578defb69c5d43
+  version: f9080354173f192dfc8821931eacf9cfd6819253
   subpackages:
   - leveldb
   - leveldb/cache
@@ -259,11 +259,11 @@ imports:
   - html/charset
   - websocket
 - name: golang.org/x/sync
-  version: 1d60e4601c6fd243af51cc01ddf169918a5407ca
+  version: 42b317875d0fa942474b76e1b46a6060d720ae6e
   subpackages:
   - syncmap
 - name: golang.org/x/sys
-  version: d989b31c87461dc8ab2f1cac6792814e27fadea9
+  version: 66b7b1311ac80bbafcd2daeef9a5e6e2cd1e2399
   subpackages:
   - cpu
   - unix
