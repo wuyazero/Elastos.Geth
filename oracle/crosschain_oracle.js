@@ -3,8 +3,11 @@
 const express = require("express");
 
 const common = require("./common");
-const getBlkNum = require("./getBlkNum");
-const sendTxInfo = require("./sendTxInfo");
+const getBlkNum = require("./getblknum");
+const sendTxInfo = require("./sendtxinfo");
+const getTxInfo = require("./gettxinfo");
+const getBlkLogs = require("./getblklogs");
+const getExistTxs = require("./getexisttxs");
 
 const app = express();
 
@@ -17,18 +20,27 @@ app.post("/json_rpc", async function(req, res) {
         console.log(json_data);
         console.log("============================================================");
         if (json_data["method"] === "getblockcount") {
-            getBlkNum(res);
+            await getBlkNum(res);
             return;
         }
         if (json_data["method"] === "sendtransactioninfo") {
-            sendTxInfo(json_data, res);
+            await sendTxInfo(json_data, res);
+            return;
+        }
+        if (json_data["method"] === "getwithdrawtransaction") {
+            await getTxInfo(json_data, res);
+            return;
+        }
+        if (json_data["method"] === "getwithdrawtransactionsbyheight") {
+            await getBlkLogs(json_data, res);
+            return;
+        }
+        if (json_data["method"] === "getexistdeposittransactions") {
+            await getExistTxs(json_data, res);
             return;
         }
     } catch (err) {
-        console.log("Error Encountered: ");
-        console.log(err.toString());
-        console.log("============================================================");
-        res.json({"error": err.toString()});
+        common.reterr(err, res);
         return;
     }
     res.json({"result": "received"});
