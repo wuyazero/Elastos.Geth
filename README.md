@@ -1,16 +1,6 @@
-## Go Ethereum
+## Elastos.Geth
 
-Official golang implementation of the Ethereum protocol.
-
-[![API Reference](
-https://camo.githubusercontent.com/915b7be44ada53c290eb157634330494ebe3e30a/68747470733a2f2f676f646f632e6f72672f6769746875622e636f6d2f676f6c616e672f6764646f3f7374617475732e737667
-)](https://godoc.org/github.com/wuyazero/Elastos.Geth)
-[![Go Report Card](https://goreportcard.com/badge/github.com/wuyazero/Elastos.Geth)](https://goreportcard.com/report/github.com/wuyazero/Elastos.Geth)
-[![Travis](https://travis-ci.org/ethereum/Elastos.Geth.svg?branch=master)](https://travis-ci.org/ethereum/Elastos.Geth)
-[![Discord](https://img.shields.io/badge/discord-join%20chat-blue.svg)](https://discord.gg/nthXNEv)
-
-Automated builds are available for stable releases and the unstable master branch.
-Binary archives are published at https://geth.ethereum.org/downloads/.
+Elastos Sidechain implementation based on Go Ethereum.
 
 ## Building the source
 
