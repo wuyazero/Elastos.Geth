@@ -40,7 +40,7 @@ module.exports = async function(json_data, res) {
         res.json({"result":[sctxhash], "id": null, "error": null, "jsonrpc": "2.0"});
         return;
     } catch (err) {
-        common.reterr("InvalidTransaction", res);
+        common.reterr("InvalidParams", res);
         return;
     }
 }

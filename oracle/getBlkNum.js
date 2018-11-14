@@ -12,7 +12,7 @@ module.exports = async function(res) {
         res.json({"result": blkNum, "id": null, "error": null, "jsonrpc": "2.0"});
         return;
     } catch (err) {
-        common.reterr(err, res);
+        common.reterr("InternalError", res);
         return;
     }
 }
