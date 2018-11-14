@@ -84,11 +84,11 @@
 9. The oracle services can be accessed at their respective IP addresses and ports
 
    ```shell
-   http://<elastos1 server ip>:6666/json_rpc/
+   http://<elastos1 server ip>:16666/json_rpc/
    
-   http://<elastos2 server ip>:7777/json_rpc/
+   http://<elastos2 server ip>:17777/json_rpc/
    
-   http://<elastos3 server ip>:8888/json_rpc/
+   http://<elastos3 server ip>:18888/json_rpc/
    ```
 
 10. When shutting down, first stop the geth nodes and oracle services, then the ELA nodes
