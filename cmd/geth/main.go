@@ -18,6 +18,9 @@
 package main
 
 import (
+	"bytes"
+	"crypto/sha256"
+	"errors"
 	"fmt"
 	"math"
 	"os"
@@ -29,17 +32,21 @@ import (
 	"time"
 
 	"github.com/elastic/gosigar"
+	elacommon "github.com/elastos/Elastos.ELA.Utility/common"
 	"github.com/wuyazero/Elastos.Geth/accounts"
 	"github.com/wuyazero/Elastos.Geth/accounts/keystore"
 	"github.com/wuyazero/Elastos.Geth/cmd/utils"
+	common "github.com/wuyazero/Elastos.Geth/common"
 	"github.com/wuyazero/Elastos.Geth/console"
 	"github.com/wuyazero/Elastos.Geth/eth"
 	"github.com/wuyazero/Elastos.Geth/ethclient"
 	"github.com/wuyazero/Elastos.Geth/internal/debug"
+	"github.com/wuyazero/Elastos.Geth/les"
 	"github.com/wuyazero/Elastos.Geth/log"
 	"github.com/wuyazero/Elastos.Geth/metrics"
 	"github.com/wuyazero/Elastos.Geth/node"
 	"github.com/wuyazero/Elastos.Geth/spv"
+	"golang.org/x/crypto/ripemd160"
 	"gopkg.in/urfave/cli.v1"
 )
 
@@ -272,12 +279,51 @@ func geth(ctx *cli.Context) error {
 	}
 
 	// get the flag and start SPV
-	spv.SpvInit(ctx.GlobalString(utils.SpvMonitoringAddrFlag.Name))
+	// spv.SpvInit(ctx.GlobalString(utils.SpvMonitoringAddrFlag.Name))
 
 	node := makeFullNode(ctx)
 	startNode(ctx, node)
 	node.Wait()
 	return nil
+}
+
+func calculateGenesisAddress(genesisBlockHash string) (string, error) {
+	if strings.HasPrefix(genesisBlockHash, "0x") {
+		genesisBlockHash = genesisBlockHash[2:]
+	}
+	genesisBlockBytes, err := elacommon.HexStringToBytes(genesisBlockHash)
+	if err != nil {
+		return "", errors.New("genesis block hash to bytes failed")
+	}
+	reversedGenesisBlockBytes := elacommon.BytesReverse(genesisBlockBytes)
+	reversedGenesisBlockStr := elacommon.BytesToHexString(reversedGenesisBlockBytes)
+
+	fmt.Println("genesis program hash:", reversedGenesisBlockStr)
+
+	buf := new(bytes.Buffer)
+	buf.WriteByte(byte(len(reversedGenesisBlockBytes)))
+	buf.Write(reversedGenesisBlockBytes)
+	buf.WriteByte(byte(elacommon.CROSSCHAIN))
+
+	sum168 := func(prefix byte, code []byte) []byte {
+		hash := sha256.Sum256(code)
+		md160 := ripemd160.New()
+		md160.Write(hash[:])
+		return md160.Sum([]byte{prefix})
+	}
+
+	genesisProgramHash, err := elacommon.Uint168FromBytes(sum168(elacommon.PrefixCrossChain, buf.Bytes()))
+	if err != nil {
+		return "", errors.New("genesis block bytes to program hash failed")
+	}
+
+	genesisAddress, err := genesisProgramHash.ToAddress()
+	if err != nil {
+		return "", errors.New("genesis block hash to genesis address failed")
+	}
+	fmt.Println("genesis address: ", genesisAddress)
+
+	return genesisAddress, nil
 }
 
 // startNode boots up the system node and all registered protocols, after which
@@ -288,6 +334,34 @@ func startNode(ctx *cli.Context, stack *node.Node) {
 
 	// Start up the node itself
 	utils.StartNode(stack)
+
+	if ctx.GlobalString(utils.SpvMonitoringAddrFlag.Name) != "" {
+		fmt.Println("Start Monitoring... ", ctx.GlobalString(utils.SpvMonitoringAddrFlag.Name))
+		spv.SpvInit(ctx.GlobalString(utils.SpvMonitoringAddrFlag.Name))
+	} else {
+		var fullnode *eth.Ethereum
+		var lightnode *les.LightEthereum
+		var ghash common.Hash
+		if ctx.GlobalString(utils.SyncModeFlag.Name) == "light" {
+			if err := stack.Service(&lightnode); err != nil {
+				utils.Fatalf("Blockchain not running: %v", err)
+			}
+			ghash = lightnode.BlockChain().Genesis().Hash()
+		} else {
+			if err := stack.Service(&fullnode); err != nil {
+				utils.Fatalf("Blockchain not running: %v", err)
+			}
+			ghash = fullnode.BlockChain().Genesis().Hash()
+		}
+
+		fmt.Println("Genesis block hash: ", ghash.String())
+		if gaddr, err := calculateGenesisAddress(ghash.String()); err != nil {
+			utils.Fatalf("Cannot calculate: %v", err)
+		} else {
+			fmt.Println("Start Monitoring... ", gaddr)
+			spv.SpvInit(gaddr)
+		}
+	}
 
 	// Unlock any account specifically requested
 	ks := stack.AccountManager().Backends(keystore.KeyStoreType)[0].(*keystore.KeyStore)
