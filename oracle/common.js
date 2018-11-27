@@ -7,8 +7,26 @@ const acc = web3.eth.accounts.decrypt(ks.kstore, ks.kpass);
 const ctrt = require("./ctrt");
 const contract = new web3.eth.Contract(ctrt.abi);
 contract.options.address = ctrt.address;
+const payloadReceived = {name: null, inputs: null, signature: null};
+
+for (const event of ctrt.abi) {
+    if (event.name === "PayloadReceived" && event.type === "event") {
+        payloadReceived.name = event.name;
+        payloadReceived.inputs = event.inputs;
+        payloadReceived.signature = event.signature;
+    }
+}
+
 module.exports = {
     web3: web3,
     acc: acc,
-    contract: contract
+    contract: contract,
+    payloadReceived: payloadReceived,
+    reterr: function(err, res) {
+        console.log("Error Encountered: ");
+        console.log(err.toString());
+        console.log("============================================================");
+        res.json({"error": err.toString(), "id": null, "jsonrpc": "2.0", "result": null});
+        return;
+    }
 }
