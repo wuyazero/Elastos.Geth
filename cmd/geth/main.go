@@ -287,7 +287,12 @@ func geth(ctx *cli.Context) error {
 	return nil
 }
 
+// calculate the ELA mainchain address from the sidechain (ie. this chain) 
+// genesis block hash for corresponding crosschain transactions
+// refer to https://github.com/elastos/Elastos.ELA.Client/blob/dev/cli/wallet/wallet.go 
+// for the original ELA-CLI implementation
 func calculateGenesisAddress(genesisBlockHash string) (string, error) {
+	// unlike Ethereum, the ELA hash values do not contain 0x prefix
 	if strings.HasPrefix(genesisBlockHash, "0x") {
 		genesisBlockHash = genesisBlockHash[2:]
 	}
@@ -335,13 +340,23 @@ func startNode(ctx *cli.Context, stack *node.Node) {
 	// Start up the node itself
 	utils.StartNode(stack)
 
+	// prepare to start the SPV module
+	// if --spvmoniaddr commandline parameter is present, use the parameter value 
+	// as the ELA mainchain address for the SPV module to monitor on
+	// if no --spvmoniaddr commandline parameter is provided, use the sidechain genesis block hash 
+	// to generate the corresponding ELA mainchain address for the SPV module to monitor on
 	if ctx.GlobalString(utils.SpvMonitoringAddrFlag.Name) != "" {
-		fmt.Println("Start Monitoring... ", ctx.GlobalString(utils.SpvMonitoringAddrFlag.Name))
+		// --spvmoniaddr parameter is provided, start the SPV service
+		fmt.Println("SPV Start Monitoring... ", ctx.GlobalString(utils.SpvMonitoringAddrFlag.Name))
 		spv.SpvInit(ctx.GlobalString(utils.SpvMonitoringAddrFlag.Name))
 	} else {
+		// --spvmoniaddr parameter is not provided
+		// get the Ethereum node service to get the genesis block hash
 		var fullnode *eth.Ethereum
 		var lightnode *les.LightEthereum
 		var ghash common.Hash
+		
+		// light node and full node are different types of node services
 		if ctx.GlobalString(utils.SyncModeFlag.Name) == "light" {
 			if err := stack.Service(&lightnode); err != nil {
 				utils.Fatalf("Blockchain not running: %v", err)
@@ -354,11 +369,12 @@ func startNode(ctx *cli.Context, stack *node.Node) {
 			ghash = fullnode.BlockChain().Genesis().Hash()
 		}
 
+		// calculate ELA mainchain address from the genesis block hash and start the SPV service
 		fmt.Println("Genesis block hash: ", ghash.String())
 		if gaddr, err := calculateGenesisAddress(ghash.String()); err != nil {
 			utils.Fatalf("Cannot calculate: %v", err)
 		} else {
-			fmt.Println("Start Monitoring... ", gaddr)
+			fmt.Println("SPV Start Monitoring... ", gaddr)
 			spv.SpvInit(gaddr)
 		}
 	}
