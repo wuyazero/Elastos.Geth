@@ -957,12 +957,12 @@ func opSpvPayLoadSize(pc *uint64, interpreter *EVMInterpreter, contract *Contrac
 func opSpvPayLoadCode(pc *uint64, interpreter *EVMInterpreter, contract *Contract, memory *Memory, stack *Stack) ([]byte, error) {
 	var (
 		transactionHash = stack.pop()
-		memOffset  = stack.pop()
-		codeOffset = stack.pop()
-		length     = stack.pop()
+		memOffset       = stack.pop()
+		codeOffset      = stack.pop()
+		length          = stack.pop()
 	)
 	data := spv.FindPayloadByTransactionHash(common.BigToHash(transactionHash).String())
-	bdata,_ := hex.DecodeString(data)
+	bdata, _ := hex.DecodeString(data)
 	codeCopy := getDataBig(bdata, codeOffset, length)
 	memory.Set(memOffset.Uint64(), length.Uint64(), codeCopy)
 	interpreter.intPool.put(memOffset, codeOffset, length)

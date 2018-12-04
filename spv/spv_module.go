@@ -156,6 +156,9 @@ func FindPayloadByTransactionHash(transactionHash string) string {
 
 		db.View(func(tx *bolt.Tx) error {
 			b := tx.Bucket([]byte("payload"))
+			if b == nil {
+				return errors.New("No payload Bucket found")
+			}
 			v := b.Get([]byte(transactionHash))
 			if v != nil {
 				data = v

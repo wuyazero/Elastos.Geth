@@ -388,8 +388,8 @@ var opCodeToString = map[OpCode]string{
 	DUP:  "DUP",
 	SWAP: "SWAP",
 
-	SPVPAYLOADSIZE : "SPVPAYLOADSIZE",
-	SPVPAYLOADCOPY : "SPVPAYLOADCOPY",
+	SPVPAYLOADSIZE: "SPVPAYLOADSIZE",
+	SPVPAYLOADCOPY: "SPVPAYLOADCOPY",
 }
 
 func (op OpCode) String() string {
@@ -541,8 +541,8 @@ var stringToOp = map[string]OpCode{
 	"CALLCODE":       CALLCODE,
 	"REVERT":         REVERT,
 	"SELFDESTRUCT":   SELFDESTRUCT,
-	"SPVPAYLOADSIZE" : SPVPAYLOADSIZE,
-	"SPVPAYLOADCOPY" : SPVPAYLOADCOPY,
+	"SPVPAYLOADSIZE": SPVPAYLOADSIZE,
+	"SPVPAYLOADCOPY": SPVPAYLOADCOPY,
 }
 
 // StringToOp finds the opcode whose name is stored in `str`.
